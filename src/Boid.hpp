@@ -20,7 +20,7 @@ public:
         : m_pos(position), m_vel(0), m_acc(0){};
 
     /* DESTRUCTOR */
-    ~Boid();
+    ~Boid() = default;
 
     /* GETTEUR */
     glm::vec2 get_pos() { return m_pos; }

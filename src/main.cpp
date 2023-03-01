@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <cstdlib>
+#include "Boid.hpp"
 #include "glm/fwd.hpp"
 #include "p6/p6.h"
 
@@ -22,21 +23,12 @@ int main(int argc, char* argv[])
     auto ctx = p6::Context{{.title = "ProgS4"}};
     ctx.maximize_window();
 
-    float x = 0.0f;
-    float y = 0.0f;
-
-    std::vector<glm::vec2> boids(100);
-    std::vector<float>     directions(100);
+    std::vector<Boid> boids(100);
 
     // initialisation des positions de boid
     for (auto& boid : boids)
     {
-        x = p6::random::number(-2, 2);
-        y = p6::random::number(-1, 1);
-
-        boid = glm::vec2(x, y);
-
-        directions.push_back(p6::random::number(-1, 1));
+        boid.set_pos(glm::vec2(p6::random::number(-2, 2), p6::random::number(-1, 1)));
     }
 
     // Declare your infinite update loop.
@@ -47,15 +39,14 @@ int main(int argc, char* argv[])
         ctx.rectangle(p6::FullScreen{});
 
         // ctx.background({0.2f, 0.1f, 0.3f});
-
         ctx.fill = {1.f, 0.7f, 0.2f};
 
         for (auto& boid : boids)
         {
-            boid.x += p6::random::number(-0.1, 0.1) * ctx.delta_time();
-            boid.y += p6::random::number(-0.1, 0.1) * ctx.delta_time();
+            boid.update_velocity();
+            boid.update_position(ctx.delta_time());
 
-            ctx.circle(p6::Center{boid.x, boid.y}, p6::Radius{0.05f});
+            ctx.circle(p6::Center{boid.get_pos().x, boid.get_pos().y}, p6::Radius{0.05f});
         }
     };
 
