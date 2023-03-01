@@ -5,6 +5,16 @@
 #define DOCTEST_CONFIG_IMPLEMENT
 #include "doctest/doctest.h"
 
+float stay_in_world(float value, float max, float min) {
+  if (value == max) {
+    value = min;
+  }
+  if (value == min) {
+    value = max;
+  }
+  return value;
+}
+
 int main(int argc, char *argv[]) {
   { // Run the tests
     if (doctest::Context{}.run() != 0)
@@ -19,18 +29,18 @@ int main(int argc, char *argv[]) {
   }
 
   // Actual app
-  auto ctx = p6::Context{{.title = "ProgS4"}};
+  auto ctx = p6::Context{{.title = "Boids"}};
   ctx.maximize_window();
 
   float x = 0.0f;
   float y = 0.0f;
 
-  std::vector<glm::vec2> boids(100);
+  std::vector<glm::vec2> boids(10);
   std::vector<float> directions(100);
 
   // initialisation des positions de boid
   for (auto &boid : boids) {
-    x = p6::random::number(-2, 2);
+    x = p6::random::number(-ctx.aspect_ratio(), ctx.aspect_ratio());
     y = p6::random::number(-1, 1);
 
     boid = glm::vec2(x, y);
@@ -52,13 +62,15 @@ int main(int argc, char *argv[]) {
     ctx.fill = {1.f, 0.7f, 0.2f};
 
     for (auto &boid : boids) {
-      boid.x += p6::random::number(-0.1, 0.1);
-      boid.y += p6::random::number(-0.1, 0.1);
+      boid.x += p6::random::number(-0.01, 0.01);
+      boid.y += p6::random::number(-0.01, 0.01);
+
+      boid.x = stay_in_world(boid.x, +ctx.aspect_ratio(), -ctx.aspect_ratio());
+      boid.y = stay_in_world(boid.y, 1, -1);
 
       ctx.circle(p6::Center{boid.x, boid.y}, p6::Radius{0.05f});
     }
   };
-
   // Should be done last. It starts the infinite loop.
   ctx.start();
 }
