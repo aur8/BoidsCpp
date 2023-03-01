@@ -14,3 +14,16 @@ void Boid::update_velocity()
 {
     m_vel += glm::vec2(0.01, 0.01) * p6::random::direction();
 }
+
+float stay_in_world(float value, float max, float min)
+{
+    if (value == max)
+    {
+        value = min;
+    }
+    if (value == min)
+    {
+        value = max;
+    }
+    return value;
+}
