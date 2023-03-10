@@ -38,7 +38,7 @@ public:
     /* BOID RULES */
 
     // Cohesion
-    //  ...
+    void cohesion();
 
     // Separation
     //...
