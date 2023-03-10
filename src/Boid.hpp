@@ -1,15 +1,51 @@
+
+#include "glm/fwd.hpp"
+#include "p6/p6.h"
+
 #pragma once
 
 class Boid {
 private:
-  // attributes
-  float m_x;
-  float m_y;
-  float m_angle;
+    // attributes
+    glm::vec2 m_pos;   // position
+    glm::vec2 m_vel;   // velocity
+    glm::vec2 m_acc;   // acceleration
+    float     m_angle; // direction
 
 public:
-  /* CONSTRUCTORS */
-  Boid() : m_x(0), m_y(0), m_angle(0){};
-  Boid(float x, float y, float angle) : m_x(x), m_y(y), m_angle(angle){};
-  Boid(float x) : m_x(x), m_y(x), m_angle(0){};
+    /* CONSTRUCTORS */
+    Boid()
+        : m_pos(0), m_vel(0), m_acc(0){};
+    Boid(glm::vec2 position)
+        : m_pos(position), m_vel(0), m_acc(0){};
+
+    /* DESTRUCTOR */
+    ~Boid() = default;
+
+    /* GETTEUR */
+    glm::vec2 get_pos() { return m_pos; }
+    glm::vec2 get_vel() { return m_vel; }
+
+    /* SETTEUR */
+    void set_pos(glm::vec2 position) { m_pos = position; }
+
+    /* BOID VELOCITY */
+
+    void update_position(float delta_time, float ratio);
+    void update_velocity();
+    // void update_acceleration();
+
+    /* BOID RULES */
+
+    // Cohesion
+    //  ...
+
+    // Separation
+    //...
+
+    // Alignment
+    //...
+
+    /* BOID WITH WINDOW */
+    float stay_in_world(float& value, float max, float min);
 };
