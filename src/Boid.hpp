@@ -31,7 +31,7 @@ public:
 
     /* BOID VELOCITY */
 
-    void update_position(float delta_time);
+    void update_position(float delta_time, float ratio);
     void update_velocity();
     // void update_acceleration();
 
@@ -47,5 +47,5 @@ public:
     //...
 
     /* BOID WITH WINDOW */
-    float stay_in_world();
+    float stay_in_world(float& value, float max, float min);
 };
