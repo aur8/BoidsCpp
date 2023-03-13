@@ -111,3 +111,7 @@ glm::vec2 Boid::alignment(const std::vector<Boid>& boids)
 
     return glm::normalize(ali);
 }
+
+// glm::vec2 Boid::separation(const std::vector<Boid>& boids)
+// {
+// }
