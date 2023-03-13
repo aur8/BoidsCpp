@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <cmath>
 #include <cstdlib>
+#include <iterator>
+#include <vector>
 #include "glm/common.hpp"
 #include "glm/fwd.hpp"
 #include "glm/geometric.hpp"
@@ -23,7 +25,7 @@ void Boid::update_velocity()
 
 void Boid::update_direction(const std::vector<Boid>& boids)
 {
-    m_direction += this->cohesion(boids) + p6::random::direction();
+    m_direction += this->cohesion(boids) + this->alignment(boids) + p6::random::direction();
 }
 
 float Boid::stay_in_world(const float& value, const float& max, const float& min)
@@ -63,8 +65,13 @@ glm::vec2 Boid::cohesion(const std::vector<Boid>& boids)
     std::vector<Boid> neighbors = get_neighbors(boids, 0.5f);
 
     // initialise our cohesion vector
-    glm::vec2 coh;
+    glm::vec2 coh(0.f, 0.f);
 
+    // verify if the boid have neighbors
+    if (neighbors.empty())
+    {
+        return coh;
+    }
     // apply cohesion to all neighbors
     for (auto other : neighbors)
     {
@@ -78,4 +85,29 @@ glm::vec2 Boid::cohesion(const std::vector<Boid>& boids)
     coh -= m_pos;
 
     return glm::normalize(coh);
+}
+
+glm::vec2 Boid::alignment(const std::vector<Boid>& boids)
+{
+    // find the neighbors
+    std::vector<Boid> neighbors = get_neighbors(boids, 0.5f);
+
+    // initialise our alignment vector
+    glm::vec2 ali(0.f, 0.f);
+
+    // verify if the boid have neighbors
+    if (neighbors.empty())
+    {
+        return ali;
+    }
+    // apply cohesion to all neighbors
+    for (auto other : neighbors)
+    {
+        ali += other.get_pos();
+    }
+
+    // divise by the number of neighbors
+    ali /= (float)neighbors.size();
+
+    return glm::normalize(ali);
 }
