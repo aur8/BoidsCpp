@@ -1,4 +1,5 @@
 
+#include <vector>
 #include "glm/fwd.hpp"
 #include "p6/p6.h"
 
@@ -33,7 +34,7 @@ public:
 
     void update_position(float delta_time, float ratio);
     void update_velocity();
-    void update_direction();
+    void update_direction(const std::vector<Boid>& boids);
     // void update_acceleration();
 
     /* CALCULS */

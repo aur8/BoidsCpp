@@ -23,7 +23,7 @@ int main(int argc, char* argv[])
     auto ctx = p6::Context{{.title = "ProgS4"}};
     ctx.maximize_window();
 
-    std::vector<Boid> boids(10);
+    std::vector<Boid> boids(100);
 
     // initialisation des positions de boid
     for (auto& boid : boids)
@@ -43,10 +43,11 @@ int main(int argc, char* argv[])
 
         for (auto& boid : boids)
         {
+            boid.update_direction(boids);
             boid.update_velocity();
             boid.update_position(ctx.delta_time(), ctx.aspect_ratio());
 
-            ctx.circle(p6::Center{boid.get_pos().x, boid.get_pos().y}, p6::Radius{0.05f});
+            ctx.circle(p6::Center{boid.get_pos().x, boid.get_pos().y}, p6::Radius{0.01f});
         }
     };
 

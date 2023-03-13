@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <cmath>
 #include <cstdlib>
+#include "glm/common.hpp"
 #include "glm/fwd.hpp"
 #include "glm/geometric.hpp"
 #include "p6/p6.h"
@@ -17,7 +18,12 @@ void Boid::update_position(float delta_time, float ratio)
 
 void Boid::update_velocity()
 {
-    m_vel += glm::vec2(0.01, 0.01) * p6::random::direction();
+    m_vel = glm::vec2(0.1, 0.1) * glm::normalize(m_direction);
+}
+
+void Boid::update_direction(const std::vector<Boid>& boids)
+{
+    m_direction += this->cohesion(boids) + p6::random::direction();
 }
 
 float Boid::stay_in_world(const float& value, const float& max, const float& min)
@@ -44,7 +50,6 @@ std::vector<Boid> Boid::get_neighbors(const std::vector<Boid>& boids, const floa
             if (glm::distance(other_boid.get_pos(), m_pos) <= distance_max)
             {
                 neighbors.push_back(other_boid);
-                std::cout << "pushback neighbourg" << std::endl;
             }
         }
     }
@@ -55,7 +60,7 @@ std::vector<Boid> Boid::get_neighbors(const std::vector<Boid>& boids, const floa
 glm::vec2 Boid::cohesion(const std::vector<Boid>& boids)
 {
     // find the neighbors
-    std::vector<Boid> neighbors = get_neighbors(boids, 0.3f);
+    std::vector<Boid> neighbors = get_neighbors(boids, 0.5f);
 
     // initialise our cohesion vector
     glm::vec2 coh;
