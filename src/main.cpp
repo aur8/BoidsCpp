@@ -23,7 +23,7 @@ int main(int argc, char* argv[])
     auto ctx = p6::Context{{.title = "ProgS4"}};
     ctx.maximize_window();
 
-    std::vector<Boid> boids(3);
+    std::vector<Boid> boids(10);
 
     // initialisation des positions de boid
     for (auto& boid : boids)

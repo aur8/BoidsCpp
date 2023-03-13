@@ -7,17 +7,17 @@
 class Boid {
 private:
     // attributes
-    glm::vec2 m_pos;   // position
-    glm::vec2 m_vel;   // velocity
-    glm::vec2 m_acc;   // acceleration
-    float     m_angle; // direction
+    glm::vec2 m_pos;       // position
+    glm::vec2 m_vel;       // velocity
+    glm::vec2 m_acc;       // acceleration
+    glm::vec2 m_direction; // direction
 
 public:
     /* CONSTRUCTORS */
     Boid()
-        : m_pos(0), m_vel(0), m_acc(0){};
+        : m_pos(0), m_vel(0), m_acc(0), m_direction(p6::random::direction()){};
     Boid(glm::vec2 position)
-        : m_pos(position), m_vel(0), m_acc(0){};
+        : m_pos(position), m_vel(0), m_acc(0), m_direction(p6::random::direction()){};
 
     /* DESTRUCTOR */
     ~Boid() = default;
@@ -33,19 +33,26 @@ public:
 
     void update_position(float delta_time, float ratio);
     void update_velocity();
+    void update_direction();
     // void update_acceleration();
+
+    /* CALCULS */
+
+    /* NEIGHBORS */
+
+    std::vector<Boid> get_neighbors(const std::vector<Boid>& boids, const float& distance_max);
 
     /* BOID RULES */
 
     // Cohesion
-    void cohesion();
+    glm::vec2 cohesion(const std::vector<Boid>& boids);
 
     // Separation
-    //...
+    glm::vec2 separation(const std::vector<Boid>& boids);
 
     // Alignment
-    //...
+    glm::vec2 alignment(const std::vector<Boid>& boids);
 
     /* BOID WITH WINDOW */
-    float stay_in_world(float& value, float max, float min);
+    float stay_in_world(const float& value, const float& max, const float& min);
 };
