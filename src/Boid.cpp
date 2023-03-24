@@ -21,20 +21,22 @@ void Boid::update_velocity() {
   m_vel = glm::vec2(0.1, 0.1) * glm::normalize(m_direction);
 }
 
-// void Boid::update_direction(const std::vector<Boid> &boids) {
-//   m_direction += this->cohesion(boids) + this->alignment(boids) +
-//                  this->separation(boids) + p6::random::direction();
-// }
+void Boid::update_direction(const std::vector<Boid> &boids) {
+  m_direction += glm::vec2(0.5, 0.5) * this->alignment(boids) +
+                 glm::vec2(3., 3.) * this->cohesion(boids) +
+                 this->separation(boids);
+}
 
-// test separation
+// test
 // void Boid::update_direction(const std::vector<Boid> &boids) {
 //   m_direction += this->separation(boids) + p6::random::direction();
 // }
 
-// test alignement
+// test
 void Boid::update_direction(const std::vector<Boid> &boids) {
-  m_direction += this->alignment(boids);
+  m_direction += this->separation(boids) + p6::random::direction();
 }
+
 float Boid::stay_in_world(const float &value, const float &max,
                           const float &min) {
   if (value >= max) {
@@ -99,11 +101,12 @@ glm::vec2 Boid::alignment(const std::vector<Boid> &boids) {
   }
   // apply cohesion to all neighbors
   for (auto other : neighbors) {
-    ali += other.get_pos();
+    ali += other.get_direction();
   }
 
-  // divise by the number of neighbors
-  ali /= (float)neighbors.size();
+  // // divise by the number of neighbors
+  // ali.x = ali.x / (float)neighbors.size();
+  // ali.y = ali.y / (float)neighbors.size();
 
   return glm::normalize(ali);
 }
