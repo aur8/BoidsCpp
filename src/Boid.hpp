@@ -14,6 +14,10 @@ private:
   glm::vec2 m_direction; // direction
 
 public:
+  static float cohesion_magnitude;
+  static float alignment_magnitude;
+  static float separation_magnitude;
+
   /* CONSTRUCTORS */
   Boid() : m_pos(0), m_vel(0), m_acc(0), m_direction(p6::random::direction()){};
   Boid(glm::vec2 position)

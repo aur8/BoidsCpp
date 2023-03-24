@@ -22,9 +22,9 @@ void Boid::update_velocity() {
 }
 
 void Boid::update_direction(const std::vector<Boid> &boids) {
-  m_direction += glm::vec2(0.5, 0.5) * this->alignment(boids) +
-                 glm::vec2(3., 3.) * this->cohesion(boids) +
-                 this->separation(boids);
+  m_direction += glm::vec2(alignment_magnitude) * this->alignment(boids) +
+                 glm::vec2(cohesion_magnitude) * this->cohesion(boids) +
+                 glm::vec2(separation_magnitude) * this->separation(boids);
 }
 
 // test
@@ -32,10 +32,10 @@ void Boid::update_direction(const std::vector<Boid> &boids) {
 //   m_direction += this->separation(boids) + p6::random::direction();
 // }
 
-// test
-void Boid::update_direction(const std::vector<Boid> &boids) {
-  m_direction += this->separation(boids) + p6::random::direction();
-}
+// // test
+// void Boid::update_direction(const std::vector<Boid> &boids) {
+//   m_direction += this->separation(boids) + p6::random::direction();
+// }
 
 float Boid::stay_in_world(const float &value, const float &max,
                           const float &min) {

@@ -8,6 +8,12 @@
 #define DOCTEST_CONFIG_IMPLEMENT
 #include "doctest/doctest.h"
 
+// initialisation magnitude
+
+float Boid::cohesion_magnitude = 1.f;
+float Boid::alignment_magnitude = 1.f;
+float Boid::separation_magnitude = 1.f;
+
 int main(int argc, char *argv[]) {
   { // Run the tests
     if (doctest::Context{}.run() != 0)
@@ -27,20 +33,11 @@ int main(int argc, char *argv[]) {
 
   std::vector<Boid> boids(100);
 
-  float square_radius = 0.f;
-  const std::string text = "test imgui";
-
   // initialisation des positions de boid
   for (auto &boid : boids) {
     boid.set_pos(
         glm::vec2(p6::random::number(-2, 2), p6::random::number(-1, 1)));
   }
-
-  // initialisation magnitude
-
-  float cohesion_magnitude = 1.f;
-  float alignment_magnitude = 1.f;
-  float separation_magnitude = 1.f;
 
   // Declare your infinite update loop.
   ctx.update = [&]() {
@@ -57,9 +54,11 @@ int main(int argc, char *argv[]) {
     //             p6::random::number(0.5, 1)}; // random
 
     ImGui::Begin("Test");
-    ImGui::SliderFloat("Cohesion Magnitude", &cohesion_magnitude, 0.f, 10.f);
-    ImGui::SliderFloat("Aligment Magnitude", &alignment_magnitude, 0.f, 10.f);
-    ImGui::SliderFloat("Separation Magnitude", &separation_magnitude, 0.f,
+    ImGui::SliderFloat("Cohesion Magnitude", &Boid::cohesion_magnitude, 0.f,
+                       10.f);
+    ImGui::SliderFloat("Aligment Magnitude", &Boid::alignment_magnitude, 0.f,
+                       10.f);
+    ImGui::SliderFloat("Separation Magnitude", &Boid::separation_magnitude, 0.f,
                        10.f);
     ImGui::End();
 
