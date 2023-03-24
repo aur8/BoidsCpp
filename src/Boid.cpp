@@ -26,11 +26,15 @@ void Boid::update_velocity() {
 //                  this->separation(boids) + p6::random::direction();
 // }
 
-// test
-void Boid::update_direction(const std::vector<Boid> &boids) {
-  m_direction += this->separation(boids) + p6::random::direction();
-}
+// test separation
+// void Boid::update_direction(const std::vector<Boid> &boids) {
+//   m_direction += this->separation(boids) + p6::random::direction();
+// }
 
+// test alignement
+void Boid::update_direction(const std::vector<Boid> &boids) {
+  m_direction += this->alignment(boids);
+}
 float Boid::stay_in_world(const float &value, const float &max,
                           const float &min) {
   if (value >= max) {
