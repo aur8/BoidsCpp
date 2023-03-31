@@ -29,9 +29,9 @@ public:
   ~Boid() = default;
 
   /* GETTEUR */
-  glm::vec2 get_pos() { return m_pos; }
-  glm::vec2 get_vel() { return m_vel; }
-  glm::vec2 get_direction() { return m_direction; }
+  glm::vec2 get_pos() const { return m_pos; }
+  glm::vec2 get_vel() const { return m_vel; }
+  glm::vec2 get_direction() const { return m_direction; }
 
   /* SETTEUR */
   void set_pos(glm::vec2 position) { m_pos = position; }

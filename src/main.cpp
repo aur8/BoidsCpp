@@ -61,7 +61,7 @@ int main(int argc, char *argv[]) {
                        1.f);
     ImGui::SliderFloat("Separation Magnitude", &Boid::separation_magnitude, 0.f,
                        1.f);
-    ImGui::SliderFloat("Distance with neighbors", &Boid::distance_max, 0.1f,
+    ImGui::SliderFloat("Distance with neighbors", &Boid::distance_max, 0.f,
                        1.f);
     ImGui::End();
 

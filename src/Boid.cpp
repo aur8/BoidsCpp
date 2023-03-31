@@ -42,17 +42,15 @@ float Boid::stay_in_world(const float &value, const float &max,
 
 std::vector<Boid> Boid::get_neighbors(const std::vector<Boid> &boids,
                                       const float &distance_max) {
-  std::vector<Boid> neighbors;
-  for (auto other_boid : boids) {
+  std::vector<Boid> neighbors{};
+  for (auto &other_boid : boids) {
     if (&other_boid != this) {
       if (glm::distance(other_boid.get_pos(), m_pos) <= distance_max) {
         neighbors.push_back(other_boid);
       }
     }
   }
-  if (neighbors.empty()) {
-    neighbors.push_back(*this);
-  }
+
   return neighbors;
 }
 
