@@ -10,9 +10,10 @@
 
 // initialisation magnitude
 
-float Boid::cohesion_magnitude = 1.f;
-float Boid::alignment_magnitude = 1.f;
-float Boid::separation_magnitude = 1.f;
+float Boid::cohesion_magnitude = 0.5f;
+float Boid::alignment_magnitude = 0.5f;
+float Boid::separation_magnitude = 0.5f;
+float Boid::distance_max = 0.5f;
 
 int main(int argc, char *argv[]) {
   { // Run the tests
@@ -55,11 +56,13 @@ int main(int argc, char *argv[]) {
 
     ImGui::Begin("Test");
     ImGui::SliderFloat("Cohesion Magnitude", &Boid::cohesion_magnitude, 0.f,
-                       10.f);
+                       1.f);
     ImGui::SliderFloat("Aligment Magnitude", &Boid::alignment_magnitude, 0.f,
-                       10.f);
+                       1.f);
     ImGui::SliderFloat("Separation Magnitude", &Boid::separation_magnitude, 0.f,
-                       10.f);
+                       1.f);
+    ImGui::SliderFloat("Distance with neighbors", &Boid::distance_max, 0.1f,
+                       1.f);
     ImGui::End();
 
     for (auto &boid : boids) {

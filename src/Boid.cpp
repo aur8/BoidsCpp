@@ -25,27 +25,18 @@ void Boid::update_direction(const std::vector<Boid> &boids) {
   m_direction += glm::vec2(alignment_magnitude) * this->alignment(boids) +
                  glm::vec2(cohesion_magnitude) * this->cohesion(boids) +
                  glm::vec2(separation_magnitude) * this->separation(boids);
+
+  m_direction = glm::normalize(m_direction);
 }
-
-// test
-// void Boid::update_direction(const std::vector<Boid> &boids) {
-//   m_direction += this->separation(boids) + p6::random::direction();
-// }
-
-// // test
-// void Boid::update_direction(const std::vector<Boid> &boids) {
-//   m_direction += this->separation(boids) + p6::random::direction();
-// }
 
 float Boid::stay_in_world(const float &value, const float &max,
                           const float &min) {
   if (value >= max) {
-    return -value;
+    return min + std::fmod(value - min, max - min);
   }
   if (value <= min) {
-    return -value;
+    return max - std::fmod(max - value, max - min);
   }
-
   return value;
 }
 
@@ -59,13 +50,15 @@ std::vector<Boid> Boid::get_neighbors(const std::vector<Boid> &boids,
       }
     }
   }
-
+  if (neighbors.empty()) {
+    neighbors.push_back(*this);
+  }
   return neighbors;
 }
 
 glm::vec2 Boid::cohesion(const std::vector<Boid> &boids) {
   // find the neighbors
-  std::vector<Boid> neighbors = get_neighbors(boids, 0.5f);
+  std::vector<Boid> neighbors = get_neighbors(boids, distance_max);
 
   // initialise our cohesion vector
   glm::vec2 coh(0.f, 0.f);
@@ -90,7 +83,7 @@ glm::vec2 Boid::cohesion(const std::vector<Boid> &boids) {
 
 glm::vec2 Boid::alignment(const std::vector<Boid> &boids) {
   // find the neighbors
-  std::vector<Boid> neighbors = get_neighbors(boids, 0.5f);
+  std::vector<Boid> neighbors = get_neighbors(boids, distance_max);
 
   // initialise our alignment vector
   glm::vec2 ali(0.f, 0.f);
@@ -113,7 +106,7 @@ glm::vec2 Boid::alignment(const std::vector<Boid> &boids) {
 
 glm::vec2 Boid::separation(const std::vector<Boid> &boids) {
   // find the neighbors
-  std::vector<Boid> neighbors = get_neighbors(boids, 0.5f);
+  std::vector<Boid> neighbors = get_neighbors(boids, distance_max);
 
   // initialise our separation vector
   glm::vec2 sep(0.f, 0.f);
