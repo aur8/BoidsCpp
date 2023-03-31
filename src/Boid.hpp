@@ -14,6 +14,11 @@ private:
   glm::vec2 m_direction; // direction
 
 public:
+  static float cohesion_magnitude;
+  static float alignment_magnitude;
+  static float separation_magnitude;
+  static float distance_max;
+
   /* CONSTRUCTORS */
   Boid() : m_pos(0), m_vel(0), m_acc(0), m_direction(p6::random::direction()){};
   Boid(glm::vec2 position)
@@ -24,9 +29,9 @@ public:
   ~Boid() = default;
 
   /* GETTEUR */
-  glm::vec2 get_pos() { return m_pos; }
-  glm::vec2 get_vel() { return m_vel; }
-  glm::vec2 get_direction() { return m_direction; }
+  glm::vec2 get_pos() const { return m_pos; }
+  glm::vec2 get_vel() const { return m_vel; }
+  glm::vec2 get_direction() const { return m_direction; }
 
   /* SETTEUR */
   void set_pos(glm::vec2 position) { m_pos = position; }
